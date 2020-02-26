@@ -87,13 +87,13 @@ def main():
     
     add_unk_token(datasets, NGRAM_SIZE)
     train_data = make_ngram_data(datasets, NGRAM_SIZE)
-    train_generator = make_batch_generator(train_data, BATCH_SIZE)
     
     model = NPLM(VOCAB_SIZE, EMBED_SIZE, HIDDEN_SIZE, NGRAM_SIZE)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
     
     for epoch in range(5000):
+        train_generator = make_batch_generator(train_data, BATCH_SIZE)
         for input_batch, target_batch in train_generator:
             optimizer.zero_grad()
             output_batch = model(input_batch)
